@@ -5,7 +5,7 @@
 Research internships, fellowships, student researcher roles, AI residencies and predoctoral
 positions at AI labs, big tech and startups — collected every day, with only the new ones flagged.
 
-**→ [dion-jy.github.io/phd-intern-board](https://dion-jy.github.io/phd-intern-board/)**
+**→ [phd-intern-board.github.io](https://phd-intern-board.github.io/)**
 
 Built because the existing aggregators are dominated by software engineering internships,
 and the one list that was actually research-focused

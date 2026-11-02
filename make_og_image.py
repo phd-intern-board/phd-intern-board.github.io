@@ -44,7 +44,7 @@ for label, ink, bg in CHIPS:
 d.line([104, 502, W - 104, 502], fill=BORDER, width=2)
 d.text((104, 542), "Read straight from public job-board APIs. New postings flagged.",
        font=f(R, 24), fill=INK3, anchor="lm")
-d.text((W - 104, 542), "dion-jy.github.io/phd-intern-board", font=f(B, 24), fill=ACCENT, anchor="rm")
+d.text((W - 104, 542), "phd-intern-board.github.io", font=f(B, 24), fill=ACCENT, anchor="rm")
 
 img.save("og-image.png", optimize=True)
 print("wrote og-image.png %dx%d" % img.size)

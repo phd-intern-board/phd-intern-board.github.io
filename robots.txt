@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dion-jy.github.io/phd-intern-board/sitemap.xml
+Sitemap: https://phd-intern-board.github.io/sitemap.xml

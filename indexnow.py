@@ -20,8 +20,8 @@ import sys
 import urllib.request
 
 KEY = "fac1944da19df06f7f05b44f4eca31ae"
-HOST = "dion-jy.github.io"
-BASE = "https://dion-jy.github.io/phd-intern-board/"
+HOST = "phd-intern-board.github.io"
+BASE = "https://phd-intern-board.github.io/"
 ENDPOINTS = ["https://api.indexnow.org/indexnow",
              "https://www.bing.com/indexnow",
              "https://yandex.com/indexnow",

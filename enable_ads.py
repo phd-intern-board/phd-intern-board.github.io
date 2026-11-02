@@ -15,7 +15,7 @@
 Each run edits only the AD object (and the google-adsense-account meta tag) in
 index.html, so it is safe to run again with one more value. It prints the
 ads.txt line, which must live at the root of the *domain* -- that is the
-dion-jy.github.io repo, not this one.
+phd-intern-board.github.io, which is this repo.
 """
 import argparse
 import re
@@ -74,7 +74,7 @@ def main():
     print("AD now:", fields)
     print("stage :", stage)
     if fields["client"]:
-        print("\nads.txt for https://dion-jy.github.io/ads.txt :")
+        print("\nads.txt for https://phd-intern-board.github.io/ads.txt :")
         print("google.com, %s, DIRECT, f08c47fec0942fa0" % fields["client"].replace("ca-", ""))
 
 

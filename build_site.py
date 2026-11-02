@@ -15,7 +15,7 @@ import json
 import re
 from datetime import datetime, timezone
 
-SITE = "https://dion-jy.github.io/phd-intern-board/"
+SITE = "https://phd-intern-board.github.io/"
 # Where a listing came from. Useful for judging what might be missing, so it sits in
 # the card footer rather than being colour-coded across the whole page.
 TIER_LABEL = {"frontier": "Frontier lab", "research-org": "Research org",
@@ -272,7 +272,9 @@ open("sitemap.xml", "w").write(
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     "  <url><loc>%s</loc><lastmod>%s</lastmod>"
     "<changefreq>daily</changefreq><priority>1.0</priority></url>\n"
-    "</urlset>\n" % (SITE, newest))
+    "  <url><loc>%sabout.html</loc></url>\n"
+    "  <url><loc>%sprivacy.html</loc></url>\n"
+    "</urlset>\n" % (SITE, newest, SITE, SITE))
 
 open("robots.txt", "w").write(
     "User-agent: *\nAllow: /\n\nSitemap: %ssitemap.xml\n" % SITE)
