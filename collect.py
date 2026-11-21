@@ -13,9 +13,10 @@ diff survives between GitHub Actions runs.
 import html
 import json
 import re
+import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import requests
 import yaml
@@ -413,6 +414,26 @@ WORKDAY_TITLE = re.compile(
 
 
 MANY_REQUEST_RETRIES = 3
+# Workday started answering bursts with 429 on 2026-11-14 and kept NVIDIA, Adobe, Sony
+# and Samsung off the board for a week. A 429 is now retried after a real pause, and
+# the Workday reader paces itself (one detail at a time, a short gap between calls).
+# Measured 2026-11-21: about eleven calls ~1.7s apart draw a 429, while one call every
+# 3s held for fifteen in a row. NVIDIA and Adobe share a host, so the gap is kept per host.
+RATE_LIMIT_WAITS = (20, 60, 120, 180)
+WORKDAY_GAP = 3.0
+_host_lock = threading.Lock()
+_host_last = {}
+
+
+def _pace(url):
+    host = url.split("/")[2]
+    if "myworkdayjobs.com" not in host:
+        return
+    with _host_lock:
+        wait = _host_last.get(host, 0) + WORKDAY_GAP - time.time()
+        if wait > 0:
+            time.sleep(wait)
+        _host_last[host] = time.time()
 
 
 def _retry_request(method, url, **kw):
@@ -421,17 +442,25 @@ def _retry_request(method, url, **kw):
     one Adobe page took the entire lab out of that day's run. Retries absorb the
     blip. A failure that survives them still raises, so it lands in status.errors
     instead of the lab quietly reporting zero openings."""
-    last = None
-    for attempt in range(MANY_REQUEST_RETRIES):
+    last, failures, limited = None, 0, 0
+    while failures < MANY_REQUEST_RETRIES:
         try:
+            _pace(url)
             r = method(url, timeout=TIMEOUT, **kw)
+            if r.status_code == 429 and limited < len(RATE_LIMIT_WAITS):
+                wait = r.headers.get("Retry-After", "")
+                time.sleep(int(wait) if wait.isdigit() and int(wait) < 120 else RATE_LIMIT_WAITS[limited])
+                limited += 1
+                last = ValueError("http 429")
+                continue
             if r.status_code < 500:
                 return r
             last = ValueError("http %d" % r.status_code)
         except requests.RequestException as exc:
             last = exc
-        if attempt < MANY_REQUEST_RETRIES - 1:
-            time.sleep(1.5 * (attempt + 1))
+        failures += 1
+        if failures < MANY_REQUEST_RETRIES:
+            time.sleep(1.5 * failures)
     raise last
 
 
@@ -502,8 +531,7 @@ def fetch_workday(lab):
 
     paths = [p for p, item in seen.items() if WORKDAY_TITLE.search(item.get("title") or "")]
     paths = paths[:WORKDAY_MAX_DETAIL]
-    with ThreadPoolExecutor(max_workers=6) as pool:
-        rows = list(pool.map(lambda p: _workday_detail(base, lab, p), paths))
+    rows = [_workday_detail(base, lab, p) for p in paths]
     return [r for r in rows if r]
 
 
@@ -593,12 +621,33 @@ def fetch_one(lab):
         return lab, None, "%s: %s" % (type(exc).__name__, exc)
 
 
+CARRY_DAYS = 7
+
+
+def _days_ago(n):
+    return (datetime.now(timezone.utc) - timedelta(days=n)).date().isoformat()
+
+
 def main():
     catalog = yaml.safe_load(open("labs.yaml"))["labs"]
     labs = [l for l in catalog if l.get("active")]
 
     with ThreadPoolExecutor(max_workers=10) as pool:
         results = list(pool.map(fetch_one, labs))
+
+    # A lab whose board fails today keeps yesterday's listings instead of vanishing
+    # from the page, and so stays out of the "new since yesterday" diff when it comes
+    # back. Carried listings are marked and dropped after CARRY_DAYS, so a board that
+    # stays broken does not show stale roles forever.
+    previous = {}
+    for path in ("api/jobs.json", "api/evergreen.json"):
+        try:
+            for j in json.load(open(path)).get("jobs", []):
+                if j.get("kind") in ("tracked", "evergreen"):
+                    previous.setdefault(j["company"], []).append(j)
+        except (FileNotFoundError, ValueError):
+            pass
+    today = NOW[:10]
 
     matched, evergreen, errors, scanned = [], [], [], 0
     # Per-lab tally. Without it a lab that quietly stops returning postings looks
@@ -609,8 +658,14 @@ def main():
         if err:
             errors.append({"lab": lab["name"], "ats": lab["ats"],
                            "slug": lab["slug"], "error": err})
+            carried = [dict(j, stale_since=j.get("stale_since") or today)
+                       for j in previous.get(lab["name"], [])
+                       if (j.get("stale_since") or today) >= _days_ago(CARRY_DAYS)]
+            for j in carried:
+                (evergreen if j["kind"] == "evergreen" else matched).append(j)
             by_lab.append({"lab": lab["name"], "ats": lab["ats"], "slug": lab["slug"],
-                           "postings": None, "matched": 0, "evergreen": 0, "error": err})
+                           "postings": None, "matched": 0, "evergreen": 0, "error": err,
+                           "carried": len(carried)})
             continue
         scanned += len(jobs)
         before_m, before_e = len(matched), len(evergreen)
