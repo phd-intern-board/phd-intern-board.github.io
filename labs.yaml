@@ -1065,13 +1065,14 @@ labs:
   active: true
   domain: corti.ai
 - name: Parloa
-  ats: greenhouse
+  ats: ashby
   slug: parloa
   tier: startup
-  verified_at: '2026-08-26'
-  job_count: 51
+  verified_at: '2026-11-21'
+  job_count: 46
   active: true
   domain: parloa.com
+  note: 'greenhouse/parloa went 404 around 2026-11-14; ashby/parloa (Berlin HQ, Milan, Paris, London, New York, San Francisco) is the live board'
   note: ashby/parloa is the same company but an empty board; greenhouse is the live one
 - name: Lovable
   ats: ashby
