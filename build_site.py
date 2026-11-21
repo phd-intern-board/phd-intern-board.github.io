@@ -205,6 +205,10 @@ src = re.sub(r'(<meta name="description" content=")[^"]*(")',
              lambda m: m.group(1) + html.escape(desc) + m.group(2), src)
 src = re.sub(r'(<meta property="og:description" content=")[^"]*(")',
              lambda m: m.group(1) + html.escape(desc) + m.group(2), src)
+# The headline count, written in so the first paint (and any crawler) already shows the
+# real number; the page's own script then sets the same ROWS.length on load.
+src = re.sub(r'(<span id="hCount" class="num">)[^<]*(</span>)',
+             lambda m: m.group(1) + str(len(listings)) + m.group(2), src)
 open("index.html", "w").write(src)
 
 # --- feed.xml ----------------------------------------------------------------
