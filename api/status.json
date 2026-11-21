@@ -1,41 +1,41 @@
 {
- "generated_at": "2026-11-21T04:29:46.789330+00:00",
+ "generated_at": "2026-11-21T07:55:09.390596+00:00",
  "scanned_labs": 110,
- "scanned_jobs": 9154,
+ "scanned_jobs": 9121,
  "by_kind": {
-  "blindspot": 377,
+  "blindspot": 376,
   "tracked": 179,
-  "discovery": 319,
+  "discovery": 317,
   "evergreen": 25
  },
- "total_listings": 900,
+ "total_listings": 897,
  "matched": 179,
  "off_board_file": 6,
  "evergreen": 25,
  "xposts": 18,
- "discover": 696,
+ "discover": 693,
  "simplify": {
   "season": "Summer2027",
   "url": "https://raw.githubusercontent.com/SimplifyJobs/Summer2027-Internships/dev/.github/scripts/listings.json",
   "tried": [
-   "Summer2027: 5119 live",
+   "Summer2027: 5116 live",
    "Summer2028: HTTP 404",
-   "Summer2026: 5119 live"
+   "Summer2026: 5116 live"
   ],
   "newest_entry_age_days": 0,
   "stale": false,
-  "total": 17688,
-  "active": 5119,
-  "phd": 1268,
-  "blindspot": 377,
-  "discovery": 420,
+  "total": 17683,
+  "active": 5116,
+  "phd": 1265,
+  "blindspot": 376,
+  "discovery": 418,
   "dropped_tracked": 78,
   "dropped_category": 378,
   "dropped_excluded": 15,
   "by_title": 113,
-  "discovery_after_title_filter": 319
+  "discovery_after_title_filter": 317
  },
- "new": 33,
+ "new": 0,
  "by_lab": [
   {
    "lab": "Microsoft / MSR",
@@ -80,24 +80,6 @@
    "postings": 633,
    "matched": 5,
    "evergreen": 1,
-   "error": null
-  },
-  {
-   "lab": "Adobe",
-   "ats": "workday",
-   "slug": "adobe.wd5.myworkdayjobs.com/adobe/external_experienced",
-   "postings": 16,
-   "matched": 6,
-   "evergreen": 0,
-   "error": null
-  },
-  {
-   "lab": "Sony AI (Japan)",
-   "ats": "workday",
-   "slug": "sonyglobal.wd1.myworkdayjobs.com/sonyglobal/SonyJapanCareers",
-   "postings": 6,
-   "matched": 6,
-   "evergreen": 0,
    "error": null
   },
   {
@@ -398,15 +380,6 @@
    "error": null
   },
   {
-   "lab": "Sony (global)",
-   "ats": "workday",
-   "slug": "sonyglobal.wd1.myworkdayjobs.com/sonyglobal/SonyGlobalCareers",
-   "postings": 6,
-   "matched": 1,
-   "evergreen": 0,
-   "error": null
-  },
-  {
    "lab": "METR",
    "ats": "lever",
    "slug": "metr",
@@ -422,15 +395,6 @@
    "postings": 5,
    "matched": 0,
    "evergreen": 1,
-   "error": null
-  },
-  {
-   "lab": "Samsung Research",
-   "ats": "workday",
-   "slug": "sec.wd3.myworkdayjobs.com/sec/Samsung_Careers",
-   "postings": 5,
-   "matched": 1,
-   "evergreen": 0,
    "error": null
   },
   {
@@ -1007,8 +971,18 @@
    "postings": null,
    "matched": 0,
    "evergreen": 0,
-   "error": "ValueError: http 429 on 'student researcher'",
+   "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
    "carried": 0
+  },
+  {
+   "lab": "Adobe",
+   "ats": "workday",
+   "slug": "adobe.wd5.myworkdayjobs.com/adobe/external_experienced",
+   "postings": null,
+   "matched": 0,
+   "evergreen": 0,
+   "error": "ValueError: http 429 on 'research intern'",
+   "carried": 6
   },
   {
    "lab": "Parloa",
@@ -1028,6 +1002,36 @@
    "matched": 0,
    "evergreen": 0,
    "error": null
+  },
+  {
+   "lab": "Sony AI (Japan)",
+   "ats": "workday",
+   "slug": "sonyglobal.wd1.myworkdayjobs.com/sonyglobal/SonyJapanCareers",
+   "postings": null,
+   "matched": 0,
+   "evergreen": 0,
+   "error": "ValueError: http 429 on 'research intern'",
+   "carried": 6
+  },
+  {
+   "lab": "Sony (global)",
+   "ats": "workday",
+   "slug": "sonyglobal.wd1.myworkdayjobs.com/sonyglobal/SonyGlobalCareers",
+   "postings": null,
+   "matched": 0,
+   "evergreen": 0,
+   "error": "ValueError: http 429 on 'research intern'",
+   "carried": 1
+  },
+  {
+   "lab": "Samsung Research",
+   "ats": "workday",
+   "slug": "sec.wd3.myworkdayjobs.com/sec/Samsung_Careers",
+   "postings": null,
+   "matched": 0,
+   "evergreen": 0,
+   "error": "ValueError: http 429 on 'research intern'",
+   "carried": 1
   }
  ],
  "silent_labs": [
@@ -1097,13 +1101,37 @@
    "lab": "NVIDIA",
    "ats": "workday",
    "slug": "nvidia.wd5.myworkdayjobs.com/nvidia/NVIDIAExternalCareerSite",
-   "error": "ValueError: http 429 on 'student researcher'"
+   "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+  },
+  {
+   "lab": "Adobe",
+   "ats": "workday",
+   "slug": "adobe.wd5.myworkdayjobs.com/adobe/external_experienced",
+   "error": "ValueError: http 429 on 'research intern'"
   },
   {
    "lab": "Parloa",
    "ats": "greenhouse",
    "slug": "parloa",
    "error": "ValueError: bad shape: {'status': 404, 'error': 'Job not found'}"
+  },
+  {
+   "lab": "Sony AI (Japan)",
+   "ats": "workday",
+   "slug": "sonyglobal.wd1.myworkdayjobs.com/sonyglobal/SonyJapanCareers",
+   "error": "ValueError: http 429 on 'research intern'"
+  },
+  {
+   "lab": "Sony (global)",
+   "ats": "workday",
+   "slug": "sonyglobal.wd1.myworkdayjobs.com/sonyglobal/SonyGlobalCareers",
+   "error": "ValueError: http 429 on 'research intern'"
+  },
+  {
+   "lab": "Samsung Research",
+   "ats": "workday",
+   "slug": "sec.wd3.myworkdayjobs.com/sec/Samsung_Careers",
+   "error": "ValueError: http 429 on 'research intern'"
   }
  ]
 }
